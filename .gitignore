@@ -1,0 +1,26 @@
+
+.gitignore —>
+
+.venv/*
+venv/*
+**/.idea/
+*.pyc
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+.env
+../.secret_keys
+media/**
+!media
+dump.rdb
+.vscode
+.DS_Store
+file.log
+cronjob.log
+Dockerfile
+docs/*
+site/*
+mkdocs.yml
+/venv/
+serviceAccountKey.json
+.secret_keys

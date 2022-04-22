@@ -6,8 +6,10 @@ from accounts.managers import CustomUserManager
 
 class CustomUser(AbstractUser):
     class Meta:
+        db_table = 'CustomUser'
         verbose_name = 'کاربر'
         verbose_name_plural = 'کاربران'
+
 
     username = None
     email = models.EmailField(verbose_name='ایمیل', unique=True)

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # apps
     'posts',
     'accounts',
+    'rating',
 ]
 
 MIDDLEWARE = [

@@ -3,6 +3,11 @@ from rest_framework.response import Response
 
 
 class CustomPagination(LimitOffsetPagination):
+    """
+        Manage the creation of custom pagination by receiving limit & offset.
+            Note: add this class as pagination.
+    """
+
     default_limit = 10
     max_limit = 20
 

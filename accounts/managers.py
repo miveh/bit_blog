@@ -3,10 +3,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
+    """
+        Validate users' emails and passwords when registering and determine each user's access level based on role
+    """
 
     def create_user(self, email, password, **extra_fields):
         """
-        Create and save a User with the given email and password.
+            Create and save a User with the given email and password.
         """
         if not email:
             raise ValueError(_('ایمیل باید وارد شود'))
@@ -19,7 +22,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         """
-        Create and save a SuperUser with the given email and password.
+            Create and save a SuperUser with the given email and password.
         """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)

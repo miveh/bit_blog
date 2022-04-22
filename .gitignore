@@ -24,3 +24,4 @@ mkdocs.yml
 /venv/
 serviceAccountKey.json
 .secret_keys
+db.sqlite3

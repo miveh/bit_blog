@@ -1,12 +1,15 @@
 from rest_framework import serializers
 
+from accounts.models import CustomUser
 from rating.models import Rating
+from .exceptions import CreateRateException
 from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
 
     your_rate = serializers.SerializerMethodField()
+
     class Meta:
         fields = ['title', 'calculate_rate', 'rate_counter', 'your_rate']
         model = Post
@@ -24,3 +27,22 @@ class PostSerializer(serializers.ModelSerializer):
                 return rates[0].rate
             else:
                 return None
+
+
+class RateCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ['rate']
+        model = Rating
+        extra_kwargs = {
+            'rate': {'required': True},
+        }
+
+    def create(self, validated_data):
+        rate_value = validated_data.pop('rate', None)
+        post = Post.objects.get_or_raise(id=self.context['request'].query_params.get('post_id'))
+        user = self.context['request'].user
+
+        # uniqueness is enforced at the database level.
+        obj, created = Rating.objects.update_or_create(post_id=post, user_id=user, defaults={'rate': rate_value},)
+        return obj

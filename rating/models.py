@@ -1,8 +1,11 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import F
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-from BitBlog import settings
 from BitBlog.base_manager import BaseManager
+from accounts.models import CustomUser
 from posts.models import Post
 
 
@@ -16,7 +19,7 @@ class Rating(models.Model):
     is_accept = models.BooleanField(db_column='IsAccept', default=True)
     created_at = models.DateTimeField(db_column='Created', auto_now=True)
     updated_at = models.DateTimeField(db_column='Updated', auto_now_add=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='User', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, db_column='User', on_delete=models.CASCADE)
     post_id = models.ForeignKey(Post, db_column='Post', on_delete=models.CASCADE)
     rate = models.IntegerField(
         db_column='Rate',
@@ -34,3 +37,12 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.rate}'
+
+
+@receiver(post_save, sender=Rating)
+def update_increase(sender, instance, created, **kwargs):
+    if created:
+        post = instance.post_id
+        post.rate_counter = F('rate_counter') + 1
+        post.rate_sum = F('rate_sum') + instance.rate
+        post.save()

@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import dotenv_values
+# from dotenv import dotenv_values
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 # SECURITY WARNING: keep the secret key used in production secret!
-BitBlog = dotenv_values(BASE_DIR / '.secret_keys')
+# config = dotenv_values(BASE_DIR / '.secret_keys')
+SECRET_KEY = 'django-insecure-j95v=fu@1u_y8*p8yyg8(jo2=o6vgu^ax(or7-ey%ml%)^jia0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

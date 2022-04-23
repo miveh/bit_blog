@@ -1,5 +1,4 @@
 from django.db import models
-
 from BitBlog.base_manager import BaseManager
 from accounts.models import CustomUser
 
@@ -20,5 +19,14 @@ class Post(models.Model):
     class Meta:
         db_table = 'Post'
 
+    @property
+    def calculate_rate(self):
+        if self.rate_counter == 0:
+            return None
+        return self.rate_sum / self.rate_counter
+
     def __str__(self):
         return self.title
+
+
+
